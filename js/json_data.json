@@ -1,0 +1,12 @@
+{
+    "result": [{
+      "option": "Lorem",
+      "percent": " %50"
+    }, {
+      "option": "Ipsum",
+      "percent": " %32"
+    }, {
+      "option": "Nuevo",
+      "percent": "%25"
+    }]
+  }
