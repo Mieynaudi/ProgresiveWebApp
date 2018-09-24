@@ -1,25 +1,51 @@
-$(".submit").click(function()
-{
-    const tarea = $(".tarea")
-    const nombreTarea = tarea.val()
-    tarea.val("")
-    $("ul").append("<li>"+nombreTarea+"<span class='right'>Ok</span> </li>")
-
-})
-
-function getData()
-{
-    $.getJSON('js/json_data.json', function(read_data) {
-        for(var i = 0; i < read_data.result.length; i++)
-        {
-            $("ul").append("<li>"+read_data.result[i].option+"<span class='right'>"
-            +
-            read_data.result[i].percent
-            +
-            "</span></li>");
-            console.log(read_data.result[i]);
-        }
-    })
+app = {
+    "initialData": [{
+        "name": "Ir al supermercado",
+        "done": false
+    }, {
+        "name": "Hacer mi tarea",
+        "done": true
+    }, {
+        "name": "Hacer tutorial WebAssembly",
+        "done": false
+    }]
 }
 
-getData()
+app.addTodo = function () {
+    const tarea = document.getElementById('tareaInput')
+    const nombreTarea = tarea.value
+    console.log(nombreTarea)
+    tarea.value = ""
+    if (nombreTarea != "") {
+        document.querySelector("ul").insertAdjacentHTML("beforeend",
+            "<li>" +
+            nombreTarea +
+            "<span class='right'> <input type='checkbox'> </span> </li>")
+    }
+}
+
+document.getElementById('submitButton').addEventListener('click', app.addTodo)
+
+app.initialize = function () {
+    let url = "http://127.0.0.1:8887"
+    if ('caches' in window) {
+        /*
+         * Check if the service worker has already cached data. 
+         * If the service worker has the data, then display the cached
+         * data while the app fetches the latest data.
+         */
+
+    }
+    app.initialData.forEach(element => {
+        let ischecked = element.done ? "checked" : ""
+        document.querySelector("ul").insertAdjacentHTML("beforeend",
+            "<li>" +
+            element.name +
+            "<span class='right'> <input type='checkbox' " +
+            ischecked +
+            "> </span> </li>")
+    });
+
+}
+
+app.initialize()
