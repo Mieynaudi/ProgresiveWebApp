@@ -64,3 +64,4 @@ app.saveData = function () {
 }
 
 app.initialize()
+Notification.requestPermission().then(() => new Notification('Bienvenido!'))
