@@ -41,17 +41,20 @@ document.getElementById('submitButton').addEventListener('click', function () {
 
 app.initialize = function () {
     let url = "http://127.0.0.1:8887"
-    if ('caches' in window) {
-        /*
-         * Check if the service worker has already cached data. 
-         * If the service worker has the data, then display the cached
-         * data while the app fetches the latest data.
-         */
+    if (localStorage.data) {
+        console.log("localstorage disponible")
+        console.log(JSON.parse(localStorage.data))
 
+        JSON.parse(localStorage.data).forEach(element => {
+            app.addTodo(element.name, element.done)
+        })
+    } else {
+        console.log("no localsotarge")
+        initialData.forEach(element => {
+            app.addTodo(element.name, element.done)
+        });
     }
-    initialData.forEach(element => {
-        app.addTodo(element.name, element.done)
-    });
+
 }
 
 app.saveData = function () {
