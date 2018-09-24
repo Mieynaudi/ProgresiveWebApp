@@ -14,6 +14,15 @@ initialData = [{
     "done": false
 }]
 
+// EVENT LISTENERS FROMDE LA UI
+document.getElementById('submitButton').addEventListener('click', function () {
+    const tarea = document.getElementById('tareaInput')
+    const nombreTarea = tarea.value
+    app.addTodo(nombreTarea, false)
+    tarea.value = ""
+})
+
+// METODOS PARA ACTUALIZAR UI
 app.addTodo = function (name, isDone) {
     console.log(name)
     app.data.push({
@@ -29,27 +38,19 @@ app.addTodo = function (name, isDone) {
             ischecked +
             "> </span> </li>")
     }
-    app.saveData()
+    app.saveData() // persiste el nuevo ToDo a localstorage
 }
-
-document.getElementById('submitButton').addEventListener('click', function () {
-    const tarea = document.getElementById('tareaInput')
-    const nombreTarea = tarea.value
-    app.addTodo(nombreTarea, false)
-    tarea.value = ""
-})
 
 app.initialize = function () {
     let url = "http://127.0.0.1:8887"
     if (localStorage.data) {
         console.log("localstorage disponible")
         console.log(JSON.parse(localStorage.data))
-
         JSON.parse(localStorage.data).forEach(element => {
             app.addTodo(element.name, element.done)
         })
     } else {
-        console.log("no localsotarge")
+        console.log("localstorage no disponible")
         initialData.forEach(element => {
             app.addTodo(element.name, element.done)
         });
