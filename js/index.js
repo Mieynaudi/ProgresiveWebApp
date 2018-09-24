@@ -33,7 +33,7 @@ app.addTodo = function (name, isDone, time) {
             ischecked +
             "> </span></li>")
     }
-    app.saveData()
+    app.saveData() // persiste el nuevo ToDo a localstorage
     app.refresh_time()
 }
 
@@ -76,12 +76,11 @@ app.initialize = function () {
     if (localStorage.data) {
         console.log("localstorage disponible")
         console.log(JSON.parse(localStorage.data))
-
         JSON.parse(localStorage.data).forEach(element => {
             app.addTodo(element.name, element.done, element.time)
         })
     } else {
-        console.log("no localsotarge")
+        console.log("localstorage no disponible")
         initialData.forEach(element => {
             app.addTodo(element.name, element.done, element.time)
         });
