@@ -1,30 +1,43 @@
 app = {
-    "initialData": [{
-        "name": "Ir al supermercado",
-        "done": false
-    }, {
-        "name": "Hacer mi tarea",
-        "done": true
-    }, {
-        "name": "Hacer tutorial WebAssembly",
-        "done": false
-    }]
+    "data": []
 }
 
-app.addTodo = function () {
-    const tarea = document.getElementById('tareaInput')
-    const nombreTarea = tarea.value
-    console.log(nombreTarea)
-    tarea.value = ""
-    if (nombreTarea != "") {
+
+initialData = [{
+    "name": "Ir al supermercado",
+    "done": false
+}, {
+    "name": "Hacer mi tarea",
+    "done": true
+}, {
+    "name": "Hacer tutorial WebAssembly",
+    "done": false
+}]
+
+app.addTodo = function (name, isDone) {
+    console.log(name)
+    app.data.push({
+        "name": name,
+        "done": isDone
+    })
+    let ischecked = isDone ? "checked" : ""
+    if (name != "") {
         document.querySelector("ul").insertAdjacentHTML("beforeend",
             "<li>" +
-            nombreTarea +
-            "<span class='right'> <input type='checkbox'> </span> </li>")
+            name +
+            "<span class='right'> <input type='checkbox' " +
+            ischecked +
+            "> </span> </li>")
     }
+    app.saveData()
 }
 
-document.getElementById('submitButton').addEventListener('click', app.addTodo)
+document.getElementById('submitButton').addEventListener('click', function () {
+    const tarea = document.getElementById('tareaInput')
+    const nombreTarea = tarea.value
+    app.addTodo(nombreTarea, false)
+    tarea.value = ""
+})
 
 app.initialize = function () {
     let url = "http://127.0.0.1:8887"
@@ -36,16 +49,14 @@ app.initialize = function () {
          */
 
     }
-    app.initialData.forEach(element => {
-        let ischecked = element.done ? "checked" : ""
-        document.querySelector("ul").insertAdjacentHTML("beforeend",
-            "<li>" +
-            element.name +
-            "<span class='right'> <input type='checkbox' " +
-            ischecked +
-            "> </span> </li>")
+    initialData.forEach(element => {
+        app.addTodo(element.name, element.done)
     });
+}
 
+app.saveData = function () {
+    var savedData = JSON.stringify(app.data);
+    localStorage.data = savedData;
 }
 
 app.initialize()
